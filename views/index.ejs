@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel=stylesheet href="/libs/bootstrap/dist/css/bootstrap.min.css">
+  <title>Sistem Girişi</title>
+  <link rel="stylesheet" href="/css/login.css">
+</head>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sifreGoz = document.getElementById("togglePassword");
+    const sifreInput = document.getElementById("sifre");
+
+    sifreGoz.addEventListener("click", function () {
+      const gizli = sifreInput.type === "password";
+
+      sifreInput.type = gizli ? "text" : "password";
+
+      sifreGoz.classList.toggle("hide", sifreInput.type === "text");
+    });
+  });
+</script>
+
+<body>
+  <div class="login-container">
+    <header class="header">
+      <h1>Sistem Giriş Ekranı </h1>
+      <p>Lütfen kullanıcı adı ve şifrenizi girerek giriş yapınız.</p>
+    </header>
+
+    <form id="loginForm" action="/" method="POST">
+      <div class="input-group">
+        <label for="id">Kullanıcı Adı:</label>
+        <input type="text" id="id" name="id" placeholder="Öğrenci No / Personel ID" required>
+      </div>
+
+      <div class="input-group">
+        <label for="sifre">Şifre:</label>
+        <div class="password-container">
+          <input type="password" id="sifre" name="sifre" placeholder="Şifreniz" required>
+          <button type="button" id="sifreGoz" aria-label="toggle password">👁️</button>
+        </div>
+      </div>
+
+
+      <button type="submit" id="loginButton">Giriş Yap</button>
+    </form>
+
+    <% if (typeof error !=="undefined" && error) { %>
+      <div class="mesaj">
+        <% if (error==="invalid" ) { %>
+          <p class="hata">Kullanıcı adı, şifre veya rol eşleşmedi!</p>
+          <% } else if (error==="db_error" ) { %>
+            <p class="uyari">Sunucu veya Veritabanı Hatası. Lütfen daha sonra tekrar deneyin.</p>
+            <% } else { %>
+              <p>
+                <%= error %>
+              </p>
+              <% } %>
+      </div>
+      <% } %>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const sifreGoz = document.getElementById("gozSifre");
+      const sifre = document.getElementById("sifre");
+      sifreGoz.addEventListener("click", () => {
+        sifre.type = sifre.type === "password" ? "text" : "password";
+      });
+    });
+  </script>
+</body>
+
+</html>
